@@ -27,6 +27,7 @@ public class TerminalController : MonoBehaviour
     public void typeTextInCommandLine(string text)
     {
         Debug.Log("tpying");
+        //We farm off to a corouting which will simulate a user typing.
         StartCoroutine(typeTheText(text, done =>
         {
             if (done !=null)
@@ -51,7 +52,7 @@ public class TerminalController : MonoBehaviour
     //function to blink the text
     public IEnumerator BlinkText()
     {
-        //blink it forever. You can set a terminating condition depending upon your requirement
+        //blink it forever. Except for when we are typing
         while (!typing)
         {
             //set the Text's text to blank
@@ -74,9 +75,7 @@ public class TerminalController : MonoBehaviour
         {
             
             {
-                commandText.text = textToType.Substring(0, i);
-                Debug.Log(textToType.Substring(0, i));
-                
+                commandText.text = textToType.Substring(0, i);              
                 yield return new WaitForSeconds(Random.Range(typingSpeed, typingSpeed * 3));
             }
             i++;
