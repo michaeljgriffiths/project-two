@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class TerminalController : MonoBehaviour
 {
@@ -12,15 +13,18 @@ public class TerminalController : MonoBehaviour
     private bool typing;
     public float typingSpeed;
     public float typingRandomness;
-
+    private string motd;
+    private DateTime currentTime;
 
     // Start is called before the first frame update
     void Start()
     {
-        commandText.text = "LOLqdsadasdasdads";
+        commandText.text = "";
+        setMOTD();
         typing = false;
         pipe = '_';
         StartCoroutine(BlinkText());
+
 
     }
 
@@ -76,13 +80,20 @@ public class TerminalController : MonoBehaviour
             
             {
                 commandText.text = textToType.Substring(0, i);              
-                yield return new WaitForSeconds(Random.Range(typingSpeed, typingSpeed * 3));
+                yield return new WaitForSeconds(UnityEngine.Random.Range(typingSpeed, typingSpeed * 3));
             }
             i++;
         }
         Debug.Log("Stop Typing");
         typing = false;
         done(true);
+    }
+
+    private void setMOTD()
+    {
+        currentTime = System.DateTime.Now;
+        motd = "------------------------\nOS: Kali Linux x86_64\nCurrent Time: " + currentTime.ToString() + "\nMessages: 0\n------------------------";
+        terminalText.text = motd;
     }
   
 
