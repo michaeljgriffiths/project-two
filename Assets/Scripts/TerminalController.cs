@@ -10,28 +10,34 @@ public class TerminalController : MonoBehaviour
     public Text commandText;
     public Text terminalText;
     private char pipe;
-    private bool typing;
+    public bool typing;
     public float typingSpeed;
     public float typingRandomness;
     private string motd;
+    private string prefix;
     private DateTime currentTime;
+
 
     // Start is called before the first frame update
     void Start()
     {
         commandText.text = "";
         setMOTD();
+        prefix = "<color=#E056FD>prince@kali:~$</color> ";
+        commandText.text = commandText.text + "\n" + prefix;
         typing = false;
         pipe = '_';
         StartCoroutine(BlinkText());
+        
 
 
     }
 
     public void typeTextInCommandLine(string text)
     {
+
         Debug.Log("tpying");
-        //We farm off to a corouting which will simulate a user typing.
+        //We farm off to a coroutine which will simulate a user typing.
         StartCoroutine(typeTheText(text, done =>
         {
             if (done !=null)
@@ -79,13 +85,16 @@ public class TerminalController : MonoBehaviour
         {
             
             {
-                commandText.text = textToType.Substring(0, i);              
+                commandText.text = prefix + textToType.Substring(0, i);              
                 yield return new WaitForSeconds(UnityEngine.Random.Range(typingSpeed, typingSpeed * 3));
             }
             i++;
         }
+        // When finished Clear the textbox so it is nice and clean for the next command.
+        commandText.text = "\n" + prefix;
         Debug.Log("Stop Typing");
         typing = false;
+        StartCoroutine(BlinkText());
         done(true);
     }
 
@@ -97,13 +106,20 @@ public class TerminalController : MonoBehaviour
     }
   
 
-    public void insertStdOutToTerminal(string textToOutput)
+    private void insertStdOutToTerminal(string textToOutput)
     {
         // Add a newline
-        terminalText.text = terminalText.text + '\n';
+        terminalText.text = terminalText.text + "\n";
         //Add the inserted value
-        terminalText.text = terminalText.text + textToOutput;
+        terminalText.text = terminalText.text + prefix + textToOutput;
 
+    }
+
+    public bool getTypingStatus()
+    {
+        //Debug.Log("Getting typing status");
+        //Debug.Log(typing.ToString());
+        return typing;
     }
 }
 

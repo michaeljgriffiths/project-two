@@ -15,9 +15,9 @@ public class ButtonActions : MonoBehaviour
     public float heatPenalty;
     Button button;
     public Text heatDescription;
-    
+    public string terminalCommand;
+    public TerminalController tc;
 
-    // Start is called before the first frame update
     void Start()
     {
         button = gameObject.GetComponent<Button>();
@@ -32,6 +32,7 @@ public class ButtonActions : MonoBehaviour
         {
             checkForHeat();
             money.AddMoney(value);
+            tc.typeTextInCommandLine(terminalCommand);
         }
     }
 
@@ -53,8 +54,16 @@ public class ButtonActions : MonoBehaviour
     {
         if (money.GetMoney() >= unlockAmount)
         {
-            unlocked = true;
-            button.interactable = true;
+            if (tc.getTypingStatus() == true) 
+            { 
+                unlocked = false;
+                button.interactable = false;
+            }
+            else 
+            {
+                unlocked = true;
+                button.interactable = true;
+            }
         }
     }
 

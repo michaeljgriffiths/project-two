@@ -15,7 +15,7 @@ public class TypeText : MonoBehaviour
     public void sendTextToTerminal()
     {
         Debug.Log("sending text");
-        tc.typeTextInCommandLine("ps -ef grep java");
+        tc.typeTextInCommandLine("ps -ef | grep java");
     }
 
 
