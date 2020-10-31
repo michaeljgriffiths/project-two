@@ -11,12 +11,14 @@ public class GameController : MonoBehaviour
     public HeatController heat; 
     public GameObject mainPanel;
     public TimeController time;
+    public int startingMoney;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        //Set money to the starting money amount
+        money.AddMoney(startingMoney);
     }
 
     private void lose()
