@@ -17,6 +17,7 @@ public class ButtonActions : MonoBehaviour
     public Text heatDescription;
     public string terminalCommand;
     public TerminalController tc;
+    public string itemsRequired;
 
     void Start()
     {

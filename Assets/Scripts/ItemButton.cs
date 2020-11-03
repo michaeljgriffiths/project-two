@@ -12,19 +12,36 @@ public class ItemButton : MonoBehaviour
     public MoneyManager money;
     public HeatController heat;
     Button shopItem;
+    public string itemName;
+    public Text haveText;
+    public int quantityOwned;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        quantityOwned = 0;
         shopItem = gameObject.GetComponent<Button>();
         shopItem.interactable = false;
         costText.text = "Costs $" + cost.ToString();
+        haveText.text = "Have: " + quantityOwned.ToString(); 
+
     }
 
     public void onClick()
     {
-        heat.ReduceHeat(reduceHeatBy);
-        money.SubtractMoney(cost);
+        if (money.GetMoney() >0)
+        {
+            if (money.GetMoney() - cost >= 0)
+            {
+                heat.ReduceHeat(reduceHeatBy);
+                money.SubtractMoney(cost);
+                quantityOwned = quantityOwned + 1;
+                haveText.text = "Have: " + quantityOwned.ToString();
+            }
+
+        }
+
     }
 
 
